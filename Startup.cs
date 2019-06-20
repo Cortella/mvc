@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using mvc.Models;
-using mvc.Data;
 
 namespace mvc
 {
@@ -25,7 +24,7 @@ namespace mvc
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)  //Deve-se "declarar" os serviços
+        public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -40,17 +39,14 @@ namespace mvc
             services.AddDbContext<mvcContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("mvcContext"), builder => 
                     builder.MigrationsAssembly("mvc")));
-
-            services.AddScoped<SeedingService>(); //Registra serviço no sistema de injecao de dependencias da aplicacao
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService) //Pode add paremetros novos
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                seedingService.Seed();
             }
             else
             {
