@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using mvc.Models;
+using mvc.Services;
 
 namespace mvc
 {
@@ -39,6 +40,8 @@ namespace mvc
             services.AddDbContext<mvcContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("mvcContext"), builder => 
                     builder.MigrationsAssembly("mvc")));
+
+            services.AddScoped<SellerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
